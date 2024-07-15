@@ -149,6 +149,51 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Error logging in' });
     }
 });
+// Endpoint to delete a user
+app.delete('/users/:id', authenticateToken, async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const db = await dbPromise;
+        const user = await db.get('SELECT * FROM users WHERE id = ?', [userId]);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        await db.run('DELETE FROM users WHERE id = ?', [userId]);
+        console.log(`Deleted user with id ${userId}`);
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (err) {
+        console.error(`Error deleting user: ${err.message}`);
+        res.status(500).json({ error: 'Error deleting user' });
+    }
+});
+// Endpoint to update user information
+app.put('/users/:id', authenticateToken, async (req, res) => {
+    const userId = req.params.id;
+    const { fullName, Email, Password } = req.body;
+
+    if (!fullName || !Email || !Password) {
+        return res.status(400).json({ error: 'fullName, Email, and Password are required' });
+    }
+
+    try {
+        const db = await dbPromise;
+        const hashedPassword = await hashPassword(Password);
+        
+        // Update the user information in the database
+        await db.run('UPDATE users SET fullName = ?, Email = ?, Password = ? WHERE id = ?', [fullName, Email, hashedPassword, userId]);
+
+        console.log(`Updated user ${userId}`);
+        res.json({ userId, fullName, Email });
+    } catch (err) {
+        console.error(`Error updating user ${userId}: ${err.message}`);
+        res.status(500).json({ error: 'Error updating user' });
+    }
+});
+
 
 
 // Example protected endpoint
