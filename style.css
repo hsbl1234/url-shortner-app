@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center; /* Center-align text within the body */
+}
+
+.container {
+    margin: 0 auto; /* Center-align container horizontally */
+    max-width: 600px; /* Adjust max-width as per your design */
+    padding: 20px;
+}
+
+.links {
+    margin-top: 20px;
+}
+
+.links a {
+    display: block; /* Make links block-level elements */
+    margin-bottom: 10px; /* Add spacing between links */
+    text-decoration: none;
+    color: #333; /* Link color */
+    background-color: #f0f0f0; /* Background color for links */
+    padding: 10px 20px; /* Padding for links */
+    border-radius: 5px; /* Rounded corners for links */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.links a:hover {
+    background-color: #ccc; /* Hover background color */
+}
