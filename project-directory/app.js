@@ -5,21 +5,12 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cors = require('cors');
 const express = require('express');
-const exphbs = require('express-handlebars');
-
+ 
 const app = express();
 const port = 3000;
 const dbPath = path.join(__dirname, 'main.db');
 const jwtSecret = 'your_jwt_secret';
-app.engine('.hbs', exphbs.engine({
-    extname: '.hbs', // Set the file extension for handlebars templates
-    defaultLayout: 'main', // Optional: Specify the default layout file (main.hbs)
-    layoutsDir: __dirname + '/views/layouts' // Optional: Specify the directory for layouts
-}));
 
-app.set('view engine', '.hbs');
-app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname, 'views')); 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login', express.static(path.join(__dirname, 'public', 'login.html')));
@@ -32,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 // Serve static files (CSS, JavaScript) from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
- // Route to render login page
+// Route to render login page
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -40,13 +31,13 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
     res.render('signup');
 });
-
+ 
 // Route to render dashboard page
 app.get('/dashboard', (req, res) => {
     // You might want to fetch data to render the dashboard dynamically
     res.render('dashboard');
 });
-
+ 
 // Function to initialize SQLite database
 async function initializeDatabase() {
     try {
@@ -80,7 +71,7 @@ async function initializeDatabase() {
 }
 let dbPromise = initializeDatabase();
  
-
+ 
 // Middleware for JWT authentication
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -132,22 +123,22 @@ app.get('/fullname/:userId', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch full name' });
     }
 });
- // Route to render dashboard page
+// Route to render dashboard page
 app.get('/dashboard', async (req, res) => {
     try {
         // Assuming you fetch user data to populate the dashboard
         const userData = await fetchUserData(); // Implement this function to fetch user data
-        res.render('dashboard', { 
+        res.render('dashboard', {
             fullName: userData.fullName,
             urls: userData.urls,
-            year: new Date().getFullYear() 
+            year: new Date().getFullYear()
         });
     } catch (error) {
         console.error('Error rendering dashboard:', error.message);
         res.status(500).send('Internal Server Error');
     }
 });
-
+ 
 // Endpoint for user login
 app.post('/login', async (req, res) => {
     const { Email, Password } = req.body;
@@ -345,5 +336,4 @@ app.get('/protected', authenticateToken, (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
- 
  
