@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,24 +43,25 @@
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
         </form>
+        <a class="btn btn-primary btn-block" href="/signup">Sign Up</a>
         <div id="errorMessage" class="error-message" style="display: none;"></div>
     </div>
-
+ 
     <!-- Bootstrap JS and dependencies (jQuery, Popper.js) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+ 
     <script>
        const loginForm = document.getElementById('loginForm');
 const errorMessage = document.getElementById('errorMessage');
-
+ 
 loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-
+ 
     const Email = loginForm.Email.value;
     const Password = loginForm.Password.value;
-
+ 
     try {
         const response = await fetch('/login', {
             method: 'POST',
@@ -68,28 +70,30 @@ loginForm.addEventListener('submit', async function(event) {
             },
             body: JSON.stringify({ Email, Password })
         });
-
+ 
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Login failed');
         }
-
+ 
         const { user, token } = await response.json();
-
+ 
         // Store token in local storage
         localStorage.setItem('token', token);
-
+ 
         // Redirect to personalized dashboard with user id
         const userId = user.id;
         alert('Login successful! Redirecting to dashboard.');
         window.location.href = `/dashboard/${userId}`;
-
+ 
     } catch (error) {
         errorMessage.textContent = error.message;
         errorMessage.style.display = 'block';
     }
 });
-
+ 
     </script>
 </body>
 </html>
+ 
+ 

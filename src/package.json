@@ -7,5 +7,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "This project is a web application built using Node.js, Express.js, SQLite, and Bootstrap. It provides functionality for user authentication, managing URLs, and displaying a user dashboard."
+  "description": "This project is a web application built using Node.js, Express.js, SQLite, and Bootstrap. It provides functionality for user authentication, managing URLs, and displaying a user dashboard.",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express-handlebars": "^8.0.1"
+  }
 }
