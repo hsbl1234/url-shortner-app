@@ -1,3 +1,6 @@
+
+ 
+require('dotenv').config();
 const { open } = require('sqlite');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
@@ -5,12 +8,20 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cors = require('cors');
 const express = require('express');
- 
+const port = process.env.PORT || 3000;
+const exphbs = require('express-handlebars');
 const app = express();
-const port = 3000;
 const dbPath = path.join(__dirname, 'main.db');
 const jwtSecret = 'your_jwt_secret';
-
+app.engine('.hbs', exphbs.engine({
+    extname: '.hbs', // Set the file extension for handlebars templates
+    defaultLayout: 'main', // Optional: Specify the default layout file (main.hbs)
+    layoutsDir: __dirname + '/views/layouts' // Optional: Specify the directory for layouts
+}));
+ 
+app.set('view engine', '.hbs');
+app.set('view engine', '.hbs');
+app.set('views', path.join(__dirname, 'views'));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login', express.static(path.join(__dirname, 'public', 'login.html')));
@@ -23,6 +34,11 @@ app.use(cors());
 app.use(express.json());
 // Serve static files (CSS, JavaScript) from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+ 
+// Redirect to login
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
 // Route to render login page
 app.get('/login', (req, res) => {
     res.render('login');
@@ -336,3 +352,7 @@ app.get('/protected', authenticateToken, (req, res) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+app
+ 
+ 
+ 

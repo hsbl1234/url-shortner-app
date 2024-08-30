@@ -1,4 +1,6 @@
 
+ 
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,18 +85,18 @@
                             // Inside the try block after successful response handling
             const userData = await response.json();
             const { token, userId } = userData;
-
+ 
             // Store token in localStorage (assuming you already have this)
             localStorage.setItem('token', token);
-
+ 
             // Store fullName and userId in localStorage
             localStorage.setItem('fullName', fullName);
             localStorage.setItem(userId, fullName); // Store userId as key and fullName as value
-
+ 
             // Alert and redirect
             alert('Signup successful! Redirecting to login page.');
             window.location.href = '/login.html'; // Redirect to login page after successful signup
-
+ 
     
                 
             } catch (error) {
@@ -107,5 +109,7 @@
     
 </body>
 </html>
+ 
+ 
  
  
